@@ -1,0 +1,112 @@
+// firestore.rules
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    
+    function getUserRole() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role;
+    }
+    
+    function isAdmin() {
+      return isSignedIn() && getUserRole() == 'admin';
+    }
+    
+    function isTeacher() {
+      return isSignedIn() && (getUserRole() == 'teacher' || getUserRole() == 'admin');
+    }
+    
+    function isParent() {
+      return isSignedIn() && getUserRole() == 'parent';
+    }
+    
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+    
+    // Users collection
+    match /users/{userId} {
+      // Anyone can read their own user document
+      allow read: if isSignedIn() && (isOwner(userId) || isAdmin());
+      
+      // Only admins can create/update/delete users
+      allow create: if isAdmin();
+      allow update: if isOwner(userId) || isAdmin();
+      allow delete: if isAdmin();
+      
+      // Admins can list all users
+      allow list: if isAdmin();
+    }
+    
+    // Students collection
+    match /students/{studentId} {
+      // Teachers and admins can read all students
+      allow read: if isTeacher();
+      
+      // Parents can only read students in their class
+      allow read: if isParent() && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.schoolId == resource.data.class;
+      
+      // Only teachers and admins can create/update/delete students
+      allow create, update: if isTeacher();
+      allow delete: if isAdmin();
+      
+      // Teachers and admins can list students
+      allow list: if isTeacher();
+    }
+    
+    // Attendance collection
+    match /attendance/{attendanceId} {
+      // Teachers and admins can read all attendance records
+      allow read: if isTeacher();
+      
+      // Parents can only read attendance for their child's class
+      allow read: if isParent() && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.schoolId == resource.data.class;
+      
+      // Teachers and admins can create/update attendance
+      allow create: if isTeacher();
+      allow update: if isTeacher();
+      allow delete: if isAdmin();
+      
+      // Teachers and admins can list attendance
+      allow list: if isTeacher();
+      
+      // Special rule: Allow mobile app to create attendance with valid data
+      allow create: if isSignedIn() && 
+        request.resource.data.keys().hasAll(['studentId', 'studentName', 'studentCode', 'class', 'date', 'status', 'timestamp']) &&
+        request.resource.data.status in ['present', 'absent', 'late', 'excused'];
+    }
+    
+    // Attendance sessions collection
+    match /attendance_sessions/{sessionId} {
+      allow read: if isTeacher();
+      allow create, update: if isTeacher();
+      allow delete: if isAdmin();
+      allow list: if isTeacher();
+    }
+    
+    // Reports collection (if any)
+    match /reports/{reportId} {
+      allow read: if isSignedIn();
+      allow create, update: if isTeacher();
+      allow delete: if isAdmin();
+    }
+    
+    // Notifications collection
+    match /notifications/{notificationId} {
+      allow read: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isTeacher();
+      allow update, delete: if isOwner(resource.data.userId) || isAdmin();
+    }
+    
+    // Default deny all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
