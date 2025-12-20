@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import {
   Box,
   Button,
-  Card,
   CardContent,
   TextField,
   Typography,
@@ -16,7 +15,6 @@ import {
   TablePagination,
   IconButton,
   Avatar,
-  Chip,
   Stack,
   Dialog,
   DialogTitle,
@@ -31,7 +29,6 @@ import {
 import {
   Add as AddIcon,
   Edit as EditIcon,
-  Delete as DeleteIcon,
   Search as SearchIcon,
   Person,
   Email as EmailIcon,
@@ -71,7 +68,7 @@ const roleConfig = {
 export default function Users() {
   const [users, setUsers] = useState<User[]>([]);
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [_loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -180,7 +177,7 @@ export default function Users() {
     }
   };
 
-  const handleChangePage = (event: unknown, newPage: number) => {
+  const handleChangePage = (_event: unknown, newPage: number) => {
     setPage(newPage);
   };
 

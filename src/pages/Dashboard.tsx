@@ -167,7 +167,7 @@ function StatCard({ title, value, subtitle, icon, gradient, trend, isLive }: Sta
 }
 
 export default function DashboardDemo() {
-  const [records, setRecords] = useState<AttendanceRecord[]>([]);
+  const [_records, setRecords] = useState<AttendanceRecord[]>([]);
   const [stats, setStats] = useState<AttendanceStats | null>(null);
   const [activities, setActivities] = useState<any[]>([]);
 

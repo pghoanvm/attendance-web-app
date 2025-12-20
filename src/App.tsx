@@ -1,4 +1,4 @@
-// src/App.tsx - UPDATED WITH NEW ROUTES
+// src/App.tsx - FIXED VERSION
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -45,24 +45,6 @@ function App() {
             horizontal: 'right',
           }}
           autoHideDuration={3000}
-          sx={{
-            '& .SnackbarItem-variantSuccess': {
-              background: 'linear-gradient(135deg, #a8edea 0%, #10b981 100%)',
-              fontWeight: 600,
-            },
-            '& .SnackbarItem-variantError': {
-              background: 'linear-gradient(135deg, #ff9a9e 0%, #ef4444 100%)',
-              fontWeight: 600,
-            },
-            '& .SnackbarItem-variantInfo': {
-              background: 'linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%)',
-              fontWeight: 600,
-            },
-            '& .SnackbarItem-variantWarning': {
-              background: 'linear-gradient(135deg, #fbc2eb 0%, #f59e0b 100%)',
-              fontWeight: 600,
-            },
-          }}
         >
           <BrowserRouter>
             <Routes>

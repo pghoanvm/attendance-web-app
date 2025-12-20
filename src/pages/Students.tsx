@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import {
   Box,
   Button,
-  Card,
   CardContent,
   TextField,
   Typography,
@@ -22,7 +21,6 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  Alert,
   CircularProgress,
   alpha,
   InputAdornment,
@@ -163,7 +161,7 @@ export default function Students() {
     }
   };
 
-  const handleChangePage = (event: unknown, newPage: number) => {
+  const handleChangePage = (_event: unknown, newPage: number) => {
     setPage(newPage);
   };
 

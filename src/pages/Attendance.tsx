@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react';
 import {
   Box,
-  Card,
   CardContent,
   Typography,
   Table,
@@ -20,7 +19,6 @@ import {
   CircularProgress,
   alpha,
   Grid,
-  Paper,
   LinearProgress,
 } from '@mui/material';
 import {
@@ -128,7 +126,7 @@ export default function Attendance() {
     setFilteredRecords(filtered);
   };
 
-  const handleChangePage = (event: unknown, newPage: number) => {
+  const handleChangePage = (_event: unknown, newPage: number) => {
     setPage(newPage);
   };
 
@@ -219,7 +217,7 @@ export default function Attendance() {
                 }}
               >
                 <MenuItem value="all">Tất cả</MenuItem>
-                {classes.map((cls) => (
+                {classes.map((cls: string) => (
                   <MenuItem key={cls} value={cls}>
                     {cls}
                   </MenuItem>

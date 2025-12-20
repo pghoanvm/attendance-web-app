@@ -1,27 +1,30 @@
-// src/components/GlassCard.tsx
+// src/components/GlassCard.tsx - FIXED VERSION
 import { Card, CardProps, alpha } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-interface GlassCardProps extends CardProps {
-  variant?: 'default' | 'gradient' | 'outlined';
+// Custom variant type (không conflict với MUI Card variant)
+type GlassVariant = 'default' | 'gradient' | 'outlined';
+
+interface GlassCardProps extends Omit<CardProps, 'variant'> {
+  variant?: GlassVariant;
   elevation?: number;
 }
 
 const StyledCard = styled(Card, {
-  shouldForwardProp: (prop) => prop !== 'variant',
-})<GlassCardProps>(({ theme, variant = 'default' }) => ({
+  shouldForwardProp: (prop) => prop !== 'variant' && prop !== 'glassVariant',
+})<{ glassVariant?: GlassVariant }>(({ theme, glassVariant = 'default' }) => ({
   position: 'relative',
   overflow: 'hidden',
   borderRadius: 20,
 
-  ...(variant === 'default' && {
+  ...(glassVariant === 'default' && {
     background: 'rgba(255, 255, 255, 0.8)',
     backdropFilter: 'blur(20px)',
     border: `1px solid ${alpha(theme.palette.primary.main, 0.1)}`,
     boxShadow: '0 8px 32px rgba(99, 102, 241, 0.1)',
   }),
 
-  ...(variant === 'gradient' && {
+  ...(glassVariant === 'gradient' && {
     background:
       'linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 249, 254, 0.9) 100%)',
     backdropFilter: 'blur(20px)',
@@ -38,7 +41,7 @@ const StyledCard = styled(Card, {
     },
   }),
 
-  ...(variant === 'outlined' && {
+  ...(glassVariant === 'outlined' && {
     background: 'rgba(255, 255, 255, 0.6)',
     backdropFilter: 'blur(10px)',
     border: `2px solid ${alpha(theme.palette.primary.main, 0.2)}`,
@@ -53,9 +56,9 @@ const StyledCard = styled(Card, {
   },
 }));
 
-export default function GlassCard({ children, variant, ...props }: GlassCardProps) {
+export default function GlassCard({ children, variant = 'default', ...props }: GlassCardProps) {
   return (
-    <StyledCard variant={variant} {...props}>
+    <StyledCard glassVariant={variant} {...props}>
       {children}
     </StyledCard>
   );

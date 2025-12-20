@@ -1,6 +1,4 @@
-// src/types/index.ts - UPDATED WITH NEW TYPES
-import { Timestamp } from 'firebase/firestore';
-
+// src/types/index.ts - FIXED VERSION
 export enum UserRole {
   ADMIN = 'admin',
   TEACHER = 'teacher',

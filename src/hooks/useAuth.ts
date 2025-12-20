@@ -1,12 +1,11 @@
-// src/hooks/useAuth.ts
+// src/hooks/useAuth.ts - FIXED VERSION
 import { useState, useEffect } from 'react';
-import { 
+import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
   signOut as firebaseSignOut,
-  User as FirebaseUser
 } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 import { auth, db } from '../config/firebase';
@@ -23,7 +22,7 @@ export const useAuth = () => {
         try {
           const userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
           const userData = userDoc.data();
-          
+
           setUser({
             uid: firebaseUser.uid,
             email: firebaseUser.email!,

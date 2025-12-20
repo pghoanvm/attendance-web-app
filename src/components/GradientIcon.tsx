@@ -25,8 +25,8 @@ export default function GradientIcon({ icon, gradient, size = 32, sx }: Gradient
       }}
     >
       {cloneElement(icon, {
-        sx: { fontSize: size, color: 'white' },
-      })}
+        style: { fontSize: size, color: 'white' },
+      } as any)}
     </Box>
   );
 }

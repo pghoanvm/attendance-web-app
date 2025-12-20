@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react';
 import {
   Box,
-  Card,
   CardContent,
   Typography,
   Grid,
@@ -43,13 +42,13 @@ import * as XLSX from 'xlsx';
 import GlassCard from '../components/GlassCard';
 import GradientIcon from '../components/GradientIcon';
 
-const COLORS = ['#10B981', '#EF4444', '#F59E0B', '#6366F1'];
-const GRADIENTS = [
-  'linear-gradient(135deg, #a8edea 0%, #10b981 100%)',
-  'linear-gradient(135deg, #ff9a9e 0%, #ef4444 100%)',
-  'linear-gradient(135deg, #fbc2eb 0%, #f59e0b 100%)',
-  'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-];
+// const COLORS = ['#10B981', '#EF4444', '#F59E0B', '#6366F1'];
+// const GRADIENTS = [
+//   'linear-gradient(135deg, #a8edea 0%, #10b981 100%)',
+//   'linear-gradient(135deg, #ff9a9e 0%, #ef4444 100%)',
+//   'linear-gradient(135deg, #fbc2eb 0%, #f59e0b 100%)',
+//   'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+// ];
 
 interface ChartData {
   name: string;
@@ -491,7 +490,7 @@ export default function Reports() {
                     cx="50%"
                     cy="50%"
                     labelLine={false}
-                    label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                    label={({ name, percent }) => `${name}: ${((percent ?? 0) * 100).toFixed(0)}%`}
                     outerRadius={100}
                     fill="#8884d8"
                     dataKey="value"
@@ -522,7 +521,7 @@ export default function Reports() {
                 📋 Tổng kết chi tiết
               </Typography>
               <Grid container spacing={2}>
-                {pieChartData.map((item, index) => (
+                {pieChartData.map((item, _index) => (
                   <Grid item xs={6} sm={3} key={item.name}>
                     <Paper
                       elevation={0}
