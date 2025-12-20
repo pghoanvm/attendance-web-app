@@ -141,10 +141,10 @@ export default function Layout() {
           </Avatar>
           <Box>
             <Typography variant="h6" fontWeight="800">
-              Attendance
+              VM School
             </Typography>
             <Typography variant="caption" sx={{ opacity: 0.9 }}>
-              Smart System
+              V1.0.1
             </Typography>
           </Box>
         </Stack>
